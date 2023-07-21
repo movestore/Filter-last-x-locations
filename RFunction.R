@@ -1,4 +1,4 @@
-library('move')
+library('move2')
 library('foreach')
 
 ## The parameter "data" is reserved for the data object passed on from the previous app
@@ -14,24 +14,24 @@ rFunction = function(data, nlocs=1) {
     result <- NULL
   } else
   {
-    data.split <- move::split(data)
+    data.split <- split(data,mt_track_id(data))
     
     res_list <- foreach(datai = data.split) %do% {
-      leni <- length(datai)
+      leni <- nrow(datai)
       
       if (leni<nlocs)
       {
-        logger.info(paste("For the track", namesIndiv(datai),"only",leni,"locations are availabe, which is less than your selected number (",nlocs,"). We will provide all locations of this track to your resulting data set." ))
-        datai[1:leni]
+        logger.info(paste("For the track", unique(mt_track_id(datai)),"only",leni,"locations are availabe, which is less than your selected number (",nlocs,"). We will provide all locations of this track to your resulting data set." ))
+        datai[1:leni,]
       } else
       {
-        logger.info(paste("For the track",namesIndiv(datai),"the last", nlocs,"locations from the available",leni,"locations will be selected."))
-        datai[(leni-nlocs+1):leni]
+        logger.info(paste("For the track",unique(mt_track_id(datai)),"the last", nlocs,"locations from the available",leni,"locations will be selected."))
+        datai[(leni-nlocs+1):leni,]
       }
     }
     names(res_list) <- names(data.split)
     
-    result <- moveStack(res_list,forceTz="UTC") 
+    result <- mt_stack(res_list) 
   }
   
   return(result)

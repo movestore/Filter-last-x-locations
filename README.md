@@ -1,4 +1,4 @@
-# Filter X Last Locations*
+# Filter X Last Locations
 
 MoveApps
 
@@ -13,10 +13,10 @@ This App selects for each track the last x locations.
 In case a track is shorter than the selected x, the complete track is retured.
 
 ### Input data
-MoveStack in Movebank format
+move2 location object
 
 ### Output data
-MoveStack in Movebank format
+move2 location object
 
 ### Artefacts
 none
